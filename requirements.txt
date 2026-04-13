@@ -1,0 +1,26 @@
+# MCP
+mcp[cli]>=1.6.0
+
+# PDF — CPU only
+pymupdf4llm>=0.0.17
+PyMuPDF>=1.24.0
+marker-pdf>=0.2.0
+
+# Excel
+openpyxl>=3.1.0
+pandas>=2.0.0
+tabulate>=0.9.0
+
+# Web clipboard
+beautifulsoup4>=4.12.0
+html2text>=2024.1.0
+lxml>=5.0.0
+
+# Local NLP (no API)
+spacy>=3.7.0
+sumy>=0.11.0
+nltk>=3.8.0
+
+# Shared
+httpx>=0.27.0
+python-dotenv>=1.0.0
