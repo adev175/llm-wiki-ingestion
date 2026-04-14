@@ -23,6 +23,7 @@ class TestSampleInputs(unittest.TestCase):
     def test_text_files_are_readable(self):
         for name in ("sample.txt", "sample.md"):
             path = SAMPLE_DIR / name
+            self.assertTrue(path.is_file(), f"Missing sample file: {name}")
             content = path.read_text(encoding="utf-8").strip()
             self.assertTrue(content)
 
@@ -31,21 +32,29 @@ class TestSampleInputs(unittest.TestCase):
             (SAMPLE_DIR / "missing_sample.txt").read_text(encoding="utf-8")
 
     def test_pdf_signature(self):
-        data = (SAMPLE_DIR / "sample.pdf").read_bytes()
+        path = SAMPLE_DIR / "sample.pdf"
+        self.assertTrue(path.is_file(), "Missing sample file: sample.pdf")
+        data = path.read_bytes()
         self.assertTrue(data.startswith(b"%PDF-"))
 
     def test_png_signature(self):
-        data = (SAMPLE_DIR / "sample.png").read_bytes()
+        path = SAMPLE_DIR / "sample.png"
+        self.assertTrue(path.is_file(), "Missing sample file: sample.png")
+        data = path.read_bytes()
         self.assertEqual(data[:8], b"\x89PNG\r\n\x1a\n")
 
     def test_xlsx_is_openxml_zip(self):
-        with zipfile.ZipFile(SAMPLE_DIR / "sample.xlsx", "r") as z:
+        path = SAMPLE_DIR / "sample.xlsx"
+        self.assertTrue(path.is_file(), "Missing sample file: sample.xlsx")
+        with zipfile.ZipFile(path, "r") as z:
             names = set(z.namelist())
         self.assertIn("[Content_Types].xml", names)
         self.assertIn("xl/workbook.xml", names)
 
     def test_pptx_is_openxml_zip(self):
-        with zipfile.ZipFile(SAMPLE_DIR / "sample.pptx", "r") as z:
+        path = SAMPLE_DIR / "sample.pptx"
+        self.assertTrue(path.is_file(), "Missing sample file: sample.pptx")
+        with zipfile.ZipFile(path, "r") as z:
             names = set(z.namelist())
         self.assertIn("[Content_Types].xml", names)
         self.assertIn("ppt/presentation.xml", names)
