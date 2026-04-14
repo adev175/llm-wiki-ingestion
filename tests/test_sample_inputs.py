@@ -25,7 +25,7 @@ class TestSampleInputs(unittest.TestCase):
             path = SAMPLE_DIR / name
             self.assertTrue(path.is_file(), f"Missing sample file: {name}")
             content = path.read_text(encoding="utf-8").strip()
-            self.assertTrue(content)
+            self.assertGreater(len(content), 0, f"File {name} is empty")
 
     def test_missing_text_file_raises_file_not_found(self):
         with self.assertRaises(FileNotFoundError):
@@ -67,12 +67,10 @@ class TestSampleInputs(unittest.TestCase):
             bad_pptx.write_bytes(b"not a zip")
 
             with self.assertRaises(zipfile.BadZipFile):
-                with zipfile.ZipFile(bad_xlsx, "r") as _:
-                    pass
+                zipfile.ZipFile(bad_xlsx, "r")
 
             with self.assertRaises(zipfile.BadZipFile):
-                with zipfile.ZipFile(bad_pptx, "r") as _:
-                    pass
+                zipfile.ZipFile(bad_pptx, "r")
 
 
 if __name__ == "__main__":
