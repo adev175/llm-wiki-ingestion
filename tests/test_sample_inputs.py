@@ -59,18 +59,16 @@ class TestSampleInputs(unittest.TestCase):
         self.assertIn("[Content_Types].xml", names)
         self.assertIn("ppt/presentation.xml", names)
 
-    def test_invalid_zip_files_raise_badzipfile(self):
+    def test_invalid_zip_files_raise_bad_zip_file(self):
         with tempfile.TemporaryDirectory() as tmp:
             bad_xlsx = Path(tmp) / "bad.xlsx"
             bad_pptx = Path(tmp) / "bad.pptx"
             bad_xlsx.write_bytes(b"not a zip")
             bad_pptx.write_bytes(b"not a zip")
 
-            with self.assertRaises(zipfile.BadZipFile):
-                zipfile.ZipFile(bad_xlsx, "r")
-
-            with self.assertRaises(zipfile.BadZipFile):
-                zipfile.ZipFile(bad_pptx, "r")
+            for bad_file in (bad_xlsx, bad_pptx):
+                with self.assertRaises(zipfile.BadZipFile):
+                    zipfile.ZipFile(bad_file, "r")
 
 
 if __name__ == "__main__":
